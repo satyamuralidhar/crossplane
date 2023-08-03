@@ -1,0 +1,37 @@
+---
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: RouteTable
+metadata:
+  name: cp-routetable
+  namespace: crossplane-system
+spec:
+  forProvider:
+    region: ap-south-1
+    routes:
+      - destinationCidrBlock: 0.0.0.0/0
+        gatewayIdRef:
+          name: cp-igw
+    associations:
+      - subnetIdRef:
+          name: cp-subnet1
+    vpcIdRef:
+      name: crossplane-vpc
+  providerConfigRef:
+    name: awsconfig
+---
+apiVersion: ec2.aws.crossplane.io/v1alpha1
+kind: Route
+metadata:
+  name: route
+  namespace: crossplane-system
+spec:
+  forProvider:
+    region: ap-south-1
+    routeTableIdRef:
+      name: cp-routetable
+    destinationCIDRBlock: 0.0.0.0/0
+  providerConfigRef:
+    name: awsconfig
+
+
+

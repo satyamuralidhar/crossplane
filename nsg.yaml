@@ -1,0 +1,43 @@
+---
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: SecurityGroup
+metadata:
+  name: cp-sg
+  namespace: crossplane-system
+spec:
+  forProvider:
+    region: ap-south-1
+    vpcIdRef:
+      name: crossplane-vpc   
+    groupName: cp-custom-sg
+    tags: 
+      - environment: dev
+      - app: GitOps
+    description: ec2-nsg rules
+    vpcIdSelector:
+      matchLabels: 
+        name: cptest-vpc
+    ingress:
+      - fromPort: 22
+        toPort: 22
+        ipProtocol: tcp
+        ipRanges:
+          - cidrIp: 0.0.0.0/0
+      - fromPort: 80
+        toPort: 80
+        ipProtocol: tcp
+        ipRanges:
+          - cidrIp: 0.0.0.0/0
+    egress:
+      - ipProtocol: '-1'
+        ipRanges:
+          - cidrIp: 0.0.0.0/0
+    tags: 
+    - key: Name
+      value: cp-nsg
+    - key: environment
+      value: dev
+    - key: app
+      value: GitOps
+  providerConfigRef:
+    name: awsconfig

@@ -1,0 +1,80 @@
+---
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: VPC
+metadata:
+  name: "crossplane-vpc"
+  namespace: crossplane-system
+  labels: 
+    name: cptest-vpc
+spec:
+  forProvider:
+    region: ap-south-1
+    cidrBlock: 10.0.0.0/16
+    instanceTenancy: default
+    tags:
+    - key: Name
+      value: cp-vpc
+    - key: environment
+      value: dev
+    - key: app
+      value: GitOps
+  providerConfigRef:
+    name: awsconfig
+---
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: Subnet
+metadata:
+  name: cp-subnet1
+  namespace: crossplane-system
+  labels: 
+    app: cptest-sub1
+spec:
+  forProvider:
+    region: ap-south-1
+    availabilityZone: ap-south-1a
+    cidrBlock: 10.0.1.0/24
+    vpcIdSelector:
+      matchLabels: 
+        name: cptest-vpc
+    vpcIdRef:
+      name: "crossplane-vpc"
+    mapPublicIPOnLaunch: true
+    tags: 
+    - key: Name
+      value: subnet1
+    - key: environment
+      value: dev
+    - key: app
+      value: GitOps
+  providerConfigRef:
+    name: awsconfig
+
+---
+
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: Subnet
+metadata:
+  name: cp-subnet2
+  namespace: crossplane-system
+spec:
+  forProvider:
+    region: ap-south-1
+    availabilityZone: ap-south-1b
+    cidrBlock: 10.0.2.0/24
+    vpcIdSelector:
+      matchLabels: 
+        name: cptest-vpc
+    vpcIdRef:
+      name: "crossplane-vpc"
+    mapPublicIPOnLaunch: false
+    tags:
+    - key: Name
+      value: subnet2
+    - key: environment
+      value: dev
+    - key: app
+      value: GitOps
+  providerConfigRef:
+    name: awsconfig
+
+

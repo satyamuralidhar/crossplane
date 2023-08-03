@@ -1,0 +1,30 @@
+---
+apiVersion: ec2.aws.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  name: cp-instance
+  namespace: crossplane-system
+spec:
+  forProvider:
+    region: ap-south-1
+    imageId: ami-0ded8326293d3201b
+    instanceType: t2.micro
+    keyName: trivy
+    blockDeviceMappings:
+    - deviceName: /dev/sdx
+      ebs:
+        volumeSize: 30
+    securityGroupRefs:
+      - name: cp-sg
+    tags:
+    - key: Name
+      value: cp-vm
+    - key: environment
+      value: dev
+    - key: app
+      value: GitOps
+
+    subnetIdRef:
+      name: cp-subnet1  
+  providerConfigRef:
+    name: awsconfig

@@ -1,0 +1,26 @@
+---
+apiVersion: ec2.aws.crossplane.io/v1beta1
+kind: InternetGateway
+metadata:
+  name: cp-igw
+  namespace: crossplane-system
+spec:
+  forProvider:
+    region: ap-south-1
+    vpcIdRef:
+      name: crossplane-vpc
+    vpcIdSelector:
+      matchLabels: 
+        name: cptest-vpc
+    tags: 
+    - key: Name
+      value: cp-igw
+    - key: environment
+      value: dev
+    - key: app
+      value: GitOps
+    - key: Name
+      value: cp-igw 
+
+  providerConfigRef:
+    name: awsconfig
