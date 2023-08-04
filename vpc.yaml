@@ -48,9 +48,7 @@ spec:
       value: GitOps
   providerConfigRef:
     name: awsconfig
-
 ---
-
 apiVersion: ec2.aws.crossplane.io/v1beta1
 kind: Subnet
 metadata:

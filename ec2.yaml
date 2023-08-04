@@ -14,17 +14,16 @@ spec:
     - deviceName: /dev/sdx
       ebs:
         volumeSize: 30
+    subnetIdRef:
+      name: cp-subnet1
     securityGroupRefs:
-      - name: cp-sg
+    - name: cp-custom-sg
     tags:
     - key: Name
       value: cp-vm
     - key: environment
       value: dev
     - key: app
-      value: GitOps
-
-    subnetIdRef:
-      name: cp-subnet1  
+      value: GitOps 
   providerConfigRef:
     name: awsconfig

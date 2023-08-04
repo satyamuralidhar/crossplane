@@ -10,9 +10,6 @@ spec:
     vpcIdRef:
       name: crossplane-vpc   
     groupName: cp-custom-sg
-    tags: 
-      - environment: dev
-      - app: GitOps
     description: ec2-nsg rules
     vpcIdSelector:
       matchLabels: 
