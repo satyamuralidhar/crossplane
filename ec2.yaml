@@ -17,7 +17,7 @@ spec:
     subnetIdRef:
       name: cp-subnet1
     securityGroupRefs:
-    - name: cp-custom-sg
+    - name: cp-sg
     tags:
     - key: Name
       value: cp-vm
